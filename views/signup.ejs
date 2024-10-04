@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="stylesheet" href="/stylesheets/signup.css" />
+    <title>Sign Up</title>
+  </head>
+  <body>
+    <div class="login-box">
+      <div class="login-header">
+        <header>Sign Up</header>
+      </div>
+      <form action="/signup" method="post">
+        <div class="input-box">
+          <input
+            type="text"
+            class="input-field"
+            placeholder="UserName"
+            autocomplete="off"
+            required
+            name="username"
+            value="<%= typeof username !== 'undefined' ? username : '' %>"
+          />
+          <input
+            type="text"
+            class="input-field"
+            placeholder="Email"
+            autocomplete="off"
+            required
+            name="email"
+            value="<%= typeof email !== 'undefined' ? email : '' %>"
+          />
+          <input
+            type="number"
+            class="input-field"
+            placeholder="Mobile Number"
+            autocomplete="off"
+            required
+            name="mnumber"
+            value="<%= typeof mnumber !== 'undefined' ? mnumber : '' %>"
+          />
+          <input
+            type="password"
+            class="input-field"
+            placeholder="Password"
+            autocomplete="off"
+            required
+            name="password"
+          />
+          <input
+            type="password"
+            class="input-field"
+            placeholder="Confirm Password"
+            autocomplete="off"
+            required
+            name="cpassword"
+          />
+        </div>
+        <div class="input-submit">
+          <button class="submit-btn" id="submit"></button>
+          <label for="submit">Sign Up</label>
+        </div>
+        <div class="sign-up-link">
+          <p>
+            Already have account?
+            <a href="/login">Log In</a>
+          </p>
+        </div>
+      </form>
+    </div>
+    <% if (typeof error !== 'undefined') { %>
+    <script>
+      alert("<%= error %>");
+    </script>
+    <% } %>
+  </body>
+</html>

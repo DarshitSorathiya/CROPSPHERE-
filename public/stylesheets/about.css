@@ -1,0 +1,196 @@
+body {
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    background-color: beige;
+    margin: 0;
+    padding: 0;
+}
+
+header {
+    background-color: #00430d;
+    padding: 20px 0;
+}
+
+#header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+    color: #fff;
+}
+
+#logo img {
+    height: 50px;
+}
+
+nav a {
+    color: #fff;
+    text-decoration: none;
+    margin: 0 15px;
+    font-size: 18px;
+}
+nav a.active {
+    border-bottom: 2px solid beige;
+}
+/* nav a:hover {
+    text-decoration: underline;
+} */
+/* Target the wrapper of the Google Translate dropdown */
+#google_element .goog-te-combo {
+    background-color: #f0f0f0; /* Set background color */
+    color: #00430d; /* Set text color */
+    border: 1px solid #00430d; /* Set border color */
+    padding: 5px; /* Add padding for a better appearance */
+    font-family: Arial, sans-serif; /* Change the font */
+    border-radius: 5px; /* Add rounded corners */
+}
+
+/* Customize the widget container */
+.goog-te-gadget {
+    font-family: 'Open Sans', sans-serif; /* Change the font style */
+    color: #007bff; /* Change the font color */
+}
+
+/* Hide the Google branding (if you are allowed to by Google’s policy) */
+.goog-logo-link {
+    display: none !important;
+}
+
+/* Adjust padding and margins of the widget container */
+.goog-te-gadget-simple {
+    background-color: #ffffff; /* Change background color */
+    border: none; /* Remove the border */
+    padding: 10px; /* Add padding */
+    border-radius: 5px; /* Add rounded corners */
+    box-shadow: 0px 0px 5px rgba(0,0,0,0.2); /* Add shadow for a 3D effect */
+}   
+main {
+    padding: 40px 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+#about-us {
+    background-color: #fff;
+    padding: 40px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+#about-us h1 {
+    font-size: 36px;
+    color: #00430d;
+    margin-bottom: 20px;
+}
+
+#about-us h2 {
+    font-size: 28px;
+    color: #00430d;
+    margin-top: 20px;
+    margin-bottom: 10px;
+}
+
+#about-us p {
+    font-size: 16px;
+    color: #333;
+    line-height: 1.6;
+}
+#logo img{
+    width: 80px;
+    height: 80px;
+}
+#about-us ul {
+    list-style: none;
+    padding: 0;
+}
+
+#about-us ul li {
+    font-size: 16px;
+    color: #333;
+    margin: 10px 0;
+}
+
+footer {
+    background-color: #00430d;
+    color: #fff;
+    padding: 40px 20px;
+    text-align: center;
+}
+
+.footer-container {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.footer-section {
+    flex: 1;
+    min-width: 200px;
+    margin: 0 10px;
+}
+
+.footer-section h3 {
+    font-size: 20px;
+    margin-bottom: 15px;
+    color: beige;
+    border-bottom: 2px solid beige;
+    padding-bottom: 10px;
+}
+
+.footer-section p,
+.footer-section a {
+    color: #fff;
+    font-size: 16px;
+    margin: 5px 0;
+    text-decoration: none;
+}
+
+.footer-section a:hover {
+    text-decoration: underline;
+}
+
+.footer-section ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.footer-section ul li {
+    margin: 10px 0;
+}
+
+.footer-section ul li a {
+    color: #fff;
+    text-decoration: none;
+}
+
+.footer-section ul li a:hover {
+    text-decoration: underline;
+}
+
+.social-media {
+    display: flex;
+    justify-content: space-around;
+    gap: 10px;
+}
+
+.social-icon {
+    color: #fff;
+    font-size: 24px;
+    text-decoration: none;
+}
+
+.social-icon:hover {
+    color: beige;
+}
+
+.footer-bottom {
+    margin-top: 20px;
+    border-top: 1px solid beige;
+    padding: 10px 0;
+    font-size: 14px;
+}

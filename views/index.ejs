@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CropSphere</title>
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.3.0/fonts/remixicon.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+        integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="/stylesheets/home.css">
+</head>
+
+<body>
+
+    <div id="main">
+        <div id="header">
+            <div id="logo"><img src="/pictures/logo.png">
+            </div>
+
+            <div id="search">
+                <div class="search-box">
+                    <input class="search-txt" type="text" name=""
+                        placeholder="Search for products ">
+                    <a class="search-btn" href="#">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                    </a>
+                </div>
+            </div>
+
+
+             <div id="google_element"></div>
+            <script type="text/javascript">
+            function loadGoogleTranslate() {
+                new google.translate.TranslateElement({pageLanguage: 'en'}, 'google_element');
+            }
+            </script>
+            <script type="text/javascript" src="https://translate.google.com/translate_a/element.js?cb=loadGoogleTranslate"></script>
+             
+             <div id="google_element"></div>
+             <script type="text/javascript">
+             function loadGoogleTranslate() {
+                 new google.translate.TranslateElement({pageLanguage: 'en'}, 'google_element');
+             }
+             </script>
+             <script type="text/javascript" src="https://translate.google.com/translate_a/element.js?cb=loadGoogleTranslate"></script>
+             
+
+
+            <div id="cart" class="text">
+                <i class="ri-shopping-cart-line"></i>
+
+                <!-- <p>Cart</p> -->
+                <a href="/cart" class="-button">Cart</a>
+
+            </div>
+
+            <div class="text">
+                <i class="ri-links-line"></i>
+                <p>Educational Resources </p>
+            </div>
+
+            <div class="text">
+                <!-- <p>About</p> -->
+                <!-- </a> -->
+                <a href="/about" target="_blank" class="-button">About Us</a>
+            </div>
+
+
+            <div id="login" style="display: <% if (typeof token === 'undefined') { %> block <% } else { %> none <% } %>;">
+                <i class="ri-user-fill"></i>
+                <!-- <p>Login</p> -->
+                <a href="/login" target="_blank" class="login-button">Login
+                </a>
+            </div>
+
+            <!-- profile -->
+            <div class="profile" style="display: <% if (typeof token !== 'undefined') { %> block <% } else { %> none <% } %>;">
+
+                <img src="/pictures/iconprofile.png" alt="user-pic" onclick="toggleMenu()">
+
+                <div class="sub-menu-wrap" id="subMenu">
+                    <div class="sub-menu">
+                        <div class="user-info">
+                            <img src="/pictures/iconprofile.png" alt="">
+                            <h2><span id="username"><%= username %></span></h2>
+                        </div>
+                        <hr>
+
+                        <a href="#" class="sub-menu-link">
+                            <img src="/pictures/profile.png" alt="">
+                            <p>Edit Profile</p>
+                            <span>></span>
+                        </a>
+                        <a href="#" class="sub-menu-link">
+                            <img src="/pictures/setting.png" alt="">
+                            <p>Settings & Privacy</p>
+                            <span>></span>
+                        </a>
+                        <a href="#" class="sub-menu-link">
+                            <img src="/pictures/help.png" alt="">
+                            <p> Help & Support</p>
+                            <span>></span>
+                        </a>
+                        <a href="#" class="sub-menu-link" onclick="handleLogout()">
+                            <img src="/pictures/logout.png" alt="">
+                            <p>Logout </p>
+                            <span>></span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <!--  -->
+
+        </div>
+        <div id="fakeheader"></div>
+        <div id="page1">
+            <div id="strip">
+                <p>
+                <ul>Your Partner In Growth , Harvesting Success.</ul>
+                </p>
+            </div>
+
+            <div id="coverimg">
+                <img src="/pictures/tractref8.jpg" alt="">
+            </div>
+
+            <div id="categories">
+                <h2>Categories</h2>
+            </div>
+
+            <div id="categ">
+                <section class="section-1">
+                    <div class="section1-cont">
+                        <div id="item1">
+                            <img src="https://bighaat-prodv2-media-cdn.azureedge.net/wsfbanners/570e9ff3-0c23-4e4d-8fb3-ce255782bf33.webp"
+                                alt="">
+                            Seeds
+                        </div>
+                        <div id="item1">
+                            <img src="https://bighaat-prodv2-media-cdn.azureedge.net/wsfbanners/809e6ec5-0baa-4db9-990a-f25d50e1303b.webp"
+                                alt="">
+                            Fertilizers
+                        </div>
+                        <div id="item1">
+                            <img src="https://bighaat-prodv2-media-cdn.azureedge.net/wsfbanners/ba176b5e-76eb-4d9b-ae39-f237d23cf62b.webp"
+                                alt="">
+                            Pesticides
+                        </div>
+
+
+
+                        <div id="item1">
+                            <img src="https://bighaat-prodv2-media-cdn.azureedge.net/wsfbanners/ec5f9f95-b7a7-45a1-8111-83c4b55238f4.webp"
+                                alt="">
+
+                            Irrigation Systems
+                        </div>
+                        <div id="item1">
+                            <img src="/pictures/r6.png" alt="">
+                            Rentals
+                        </div>
+                </section>
+                <!-- <br><br> -->
+
+            </div>
+        </div>
+        <!--  -->
+        <br><br><br><br><br>
+        <div class="Bestseller">
+            <h2>        Bestsellers</h2>
+        </div>
+        <br><br>
+        <div class="product-grid">
+
+            <div class="product-card">
+                <!-- <div class="discount-tag">10% OFF</div> -->
+                <img src="https://cdn.shopify.com/s/files/1/0722/2059/products/1_25.webp?v=1671453509&width=256" alt="product image" class="product-image">
+                <div class="product-details">
+                    <h2 class="product-title">Amruth Micro Speed Growth Promoter</h2>
+                    <p class="product-brand">Amruth traders</p>
+                    <p class="product-price">₹309 <span class="original-price">₹325</span></p>
+                    <p class="saved-price">Saved ₹16</p>
+                    <div class="product-size">
+                        <label for="size">Size:</label>
+                        <select id="size">
+                            <option>100 ml</option>
+                            <option>250 ml</option>
+                            <option>500 ml</option>
+                        </select>
+                    </div>
+                    <button class="add-to-cart-btn">Add to Cart</button>
+                </div>
+            </div>  
+            
+        
+<!--  -->
+            <div class="product-card">
+                <!-- <div class="discount-tag">10% OFF</div> -->
+                <img src="https://cdn.shopify.com/s/files/1/0722/2059/products/1_43.webp?v=1672654007&width=256" alt="product image" class="product-image">
+                <div class="product-details">
+                    <h2 class="product-title">Isabion Biostimulant</h2>
+                    <p class="product-brand">Syngenta</p>
+                    <p class="product-price">₹207<span class="original-price">₹218</span></p>
+                    <p class="saved-price">Saved ₹11</p>
+                    <div class="product-size">
+                        <label for="size">Size:</label>
+                        <select id="size">
+                            <option>100 ml</option>
+                            <option>250 ml</option>
+                            <option>500 ml</option>
+                        </select>
+                    </div>
+                    <button class="add-to-cart-btn">Add to Cart</button>
+                </div>
+            </div>
+            <!--  -->
+            <div class="product-card">
+                <!-- <div class="discount-tag">10% OFF</div> -->
+                <img src="https://cdn.shopify.com/s/files/1/0722/2059/files/MADHURBEETROOTS.webp_v_1671801793.webp?v=1686644153&width=256" alt="product image" class="product-image">
+                <div class="product-details">
+                    <h2 class="product-title">Madhur Beetroot Seeds
+                    </h2>
+                    <p class="product-brand">Namdhari Seeds</p>
+                    <p class="product-price">₹374<span class="original-price">₹640</span></p>
+                    <p class="saved-price">Saved ₹226</p>
+                    <div class="product-size">
+                        <label for="size">Size:</label>
+                        <select id="size">
+                            <option>200 gm</option>
+                            <option>250 gm</option>
+                            <option>500 gm</option>
+                        </select>
+                    </div>
+                    <button class="add-to-cart-btn">Add to Cart</button>
+                </div>
+            </div>
+            <!--  -->
+            <div class="product-card">
+                <!-- <div class="discount-tag">10% OFF</div> -->
+                <img src="https://cdn.shopify.com/s/files/1/0722/2059/files/7_acc0c3e3-cdc8-4a84-bd36-e46750a9148b.webp?v=1689403931&width=256" alt="product image" class="product-image">
+                <div class="product-details">
+                    <br>
+                    <h2 class="product-title">Biovita Liquid BioFertilizer</h2>
+                    <p class="product-brand">PI Industries
+                    </p>
+                    <p class="product-price">₹510 <span class="original-price">₹550</span></p>
+                    <p class="saved-price">Saved ₹40</p>
+                    <div class="product-size">
+                        <label for="size">Size:</label>
+                        <select id="size">
+                            <option>250 ml</option>
+                            <option>500 ml</option>
+                            <option>1 ltr</option>
+                        </select>
+                    </div>
+                    <button class="add-to-cart-btn">Add to Cart</button>
+                </div>
+                </div>
+                <!--  -->
+                <div class="product-card">
+                    <!-- <div class="discount-tag">10% OFF</div> -->
+                    <img src="https://cdn.shopify.com/s/files/1/0722/2059/files/AminoPearl1_LahariPeddiReddy.jpg?v=1724392980&width=256">
+                    <div class="product-details">
+                        <br><br>
+            <br><br>
+                        <h2 class="product-title">Janatha Amino </h2>
+                    
+                        <p class="product-brand">JANATHA AGRO PRODUCTS
+                        </p>
+                        <p class="product-price">₹315<span class="original-price">₹385</span></p>
+                        <p class="saved-price">Saved ₹70</p>
+                        <div class="product-size">
+                            <label for="size">Size:</label>
+                            <select id="size">
+                                <option>100 ml</option>
+                                <option>250 ml</option>
+                                <option>500 ml</option>
+                            </select>
+                        </div>
+                        <button class="add-to-cart-btn">Add to Cart</button>
+                    </div>
+                </div>
+                <!--  -->
+                <div class="product-card">
+                    <!-- <div class="discount-tag">10% OFF</div> -->
+                    <img src="https://cdn.shopify.com/s/files/1/0722/2059/files/Untitleddesign_1_73a4d9ee-cd6d-4c55-a6ce-89400285e884.png?v=1721027830&width=256 alt="alt="product image" class="product-image">
+                    <div class="product-details">
+                        <br>
+                        <h2 class="product-title">Cultar Plant Growth Regulator</h2>
+                        <p class="product-brand">PI Industries</p>
+                        <p class="product-price">₹246 <span class="original-price">₹375</span></p>
+                        <p class="saved-price">Saved ₹129</p>
+                        <div class="product-size">
+                            <label for="size">Size:</label>
+                            <select id="size">
+                                <option>100 gm</option>
+                                <option>250 gm</option>
+                                <option>500 gm</option>
+                            </select>
+                        </div>
+                        <button class="add-to-cart-btn">Add to Cart</button>
+                    </div>
+                </div>
+                <!--  -->
+                <div class="product-card">
+                    <!-- <div class="discount-tag">10% OFF</div> -->
+                    <img src="https://cdn.shopify.com/s/files/1/0722/2059/files/4_a3d1ed20-e397-4f09-98f6-31bf2bba5a6a.webp?v=1689403842&width=256" alt="product image" class="product-image">
+                    <div class="product-details">
+                        <br>
+                        <h2 class="product-title">Planofix Plant Growth Regulator</h2>
+                        <p class="product-brand">Plant Industries</p>
+                        <p class="product-price">₹129 <span class="original-price">₹150</span></p>
+                        <p class="saved-price">Saved ₹21</p>
+                        <div class="product-size">
+                            <label for="size">Size:</label>
+                            <select id="size">
+                                <option>100 ml</option>
+                                <option>250 ml</option>
+                                <option>500 ml</option>
+                            </select>
+                        </div>
+                        <button class="add-to-cart-btn">Add to Cart</button>
+                    </div>
+                </div>
+                <!--  -->
+                <div class="product-card">
+                    <!-- <div class="discount-tag">10% OFF</div> -->
+                    <img src="https://cdn.shopify.com/s/files/1/0722/2059/products/1_45.webp?v=1672654989&width=256" alt="product image" class="product-image">
+                    <div class="product-details">
+                        <h2 class="product-title">Hoshi Growth Regulator</h2>
+                        <p class="product-brand">Hoshi Sellers</p>
+                        <p class="product-price">₹494 <span class="original-price">₹899</span></p>
+                        <p class="saved-price">Saved ₹405</p>
+                        <div class="product-size">
+                            <label for="size">Size:</label>
+                            <select id="size">
+                                <option>100 ml</option>
+                                <option>250 ml</option>
+                                <option>500 ml</option>
+                            </select>
+                        </div>
+                        <button class="add-to-cart-btn">Add to Cart</button>
+                    </div>
+                </div>
+                <!--  -->
+                <div class="product-card">
+                    <!-- <div class="discount-tag">10% OFF</div> -->
+                    <img src="https://cdn.shopify.com/s/files/1/0722/2059/products/Artboard1.webp?v=1672897137&width=256" alt="product image" class="product-image">
+                    <div class="product-details">
+                        <br>
+                        <h2 class="product-title">Quantis Biostimulant</h2>
+                        <p class="product-brand">Quantis Industries</p>
+                        <p class="product-price">₹140 <span class="original-price">₹212</span></p>
+                        <p class="saved-price">Saved ₹72</p>
+                        <div class="product-size">
+                            <label for="size">Size:</label>
+                            <select id="size">
+                                <option>100 ml</option>
+                                <option>250 ml</option>
+                                <option>500 ml</option>
+                            </select>
+                        </div>
+                        <button class="add-to-cart-btn">Add to Cart</button>
+                    </div>
+                </div>
+                <!--  -->
+                <div class="product-card">
+                    <!-- <div class="discount-tag">10% OFF</div> -->
+                    <img src="https://cdn.shopify.com/s/files/1/0722/2059/products/4_31.webp?v=1672227019&width=256" alt="product image" class="product-image">
+                    <div class="product-details">
+                        <h2 class="product-title">Corteva Crop Max Growth Promoter</h2>
+                        <p class="product-brand">Promoters seller</p>
+                        <p class="product-price">₹509 <span class="original-price">₹714</span></p>
+                        <p class="saved-price">Saved ₹205</p>
+                        <div class="product-size">
+                            <label for="size">Size:</label>
+                            <select id="size">
+                                <option>100 ml</option>
+                                <option>250 ml</option>
+                                <option>500 ml</option>
+                            </select>
+                        </div>
+                        <button class="add-to-cart-btn">Add to Cart</button>
+                    </div>
+                </div>  
+<!--  -->
+<div class="product-card">
+    <!-- <div class="discount-tag">10% OFF</div> -->
+    <img src="https://cdn.shopify.com/s/files/1/0722/2059/files/719mpqzGaQL._SY679.jpg?v=1687265180&width=256" alt="product image" class="product-image">
+    <div class="product-details">
+        <br>
+        <h2 class="product-title">V-hume Growth Promoters</h2>
+        <p class="product-brand">VHume & Sons</p>
+        <p class="product-price">₹349<span class="original-price">₹400</span></p>
+        <p class="saved-price">Saved ₹51</p>
+        <div class="product-size">
+            <label for="size">Size:</label>
+            <select id="size">
+                <option>250 ml</option>
+                <option>250 ml</option>
+                <option>500 ml</option>
+            </select>
+        </div>
+        <button class="add-to-cart-btn">Add to Cart</button>
+    </div>
+</div>  
+<!--  -->
+<div class="product-card">
+    <!-- <div class="discount-tag">10% OFF</div> -->
+    <img src="https://cdn.shopify.com/s/files/1/0722/2059/files/28_LahariPeddiReddy.jpg?v=1702638213&width=256" alt="product image" class="product-image">
+    <div class="product-details">
+        <br><br><br>
+        <h2 class="product-title">Katra Botanical</h2>
+        <p class="product-brand">KATRA FERTILIZERS AND CHEMICALS PVT LTD</p>
+        <p class="product-price">₹323 <span class="original-price">₹340</span></p>
+        <p class="saved-price">Saved ₹17</p>
+        <div class="product-size">
+            <label for="size">Size:</label>
+            <select id="size">
+                <option>100 ml</option>
+                <option>250 ml</option>
+                <option>500 ml</option>
+            </select>
+        </div>
+        <button class="add-to-cart-btn">Add to Cart</button>
+    </div>
+</div>
+            <!-- Repeat the same structure for other product cards -->
+        </div>
+        
+
+
+ 
+    <footer>
+        <div class="footer-container">
+            <div class="footer-section">
+                <h3>Contact Us</h3>
+                <p>Email: <a href="mailto:contact@cropsphere.com">cropsphere9@gmail.com</a></p>
+                <p>Phone: <a href="tel:+1234567890">+123 456 7890</a></p>
+                <p></p>
+            </div>
+            <div class="footer-section">
+                <!-- <h3>Quick Links</h3> -->
+                <ul>
+                    <li><a href="#">Home</a></li>
+                    <li><a href="#">Shop</a></li>
+                    <li><a href="#">About Us</a></li>
+                    <li><a href="#">Contact Us</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Follow Us</h3>
+                <div class="social-media">
+                    <a href="#" class="social-icon"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" class="social-icon"><i class="fab fa-twitter"></i></a>
+                    <a href="#" class="social-icon"><i class="fab fa-instagram"></i></a>
+                    <a href="#" class="social-icon"><i class="fab fa-linkedin-in"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 CropSPhere. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        function toggleMenu() {
+          const subMenu = document.getElementById("subMenu");
+          subMenu.classList.toggle("open-menu");
+        }
+
+        function handleLogout() {
+            fetch('/logout', { method: 'POST' }) // Logout via POST request
+                .then(() => {
+                    location.reload(); // Reload the page after logout
+                })
+                .catch(err => console.error(err));
+        }
+    </script>
+</body>
+</html>
