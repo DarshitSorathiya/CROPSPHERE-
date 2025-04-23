@@ -7,6 +7,9 @@ import {
   deleteAccount,
   changeCurrentPassword,
   updateAccountDetails,
+  sendOTPEmail,
+  verifyOTP,
+  googleAuth,
 } from "../controllers/user.controller.js";
 
 const router = Router();
@@ -22,5 +25,21 @@ router.route("/delete-account/:userId").delete(verifyJWT, deleteAccount());
 router.route("/change-password").post(verifyJWT, changeCurrentPassword());
 
 router.route("/update-account").post(verifyJWT, updateAccountDetails());
+
+router.route("/send-otp").post(verifyJWT, sendOTPEmail);
+
+router.route("/verify-otp").post(verifyJWT, verifyOTP);
+
+router
+  .route("/auth/google")
+  .get(passport.authenticate("google", { scope: ["profile", "email"] }));
+
+router.route("/auth/google/callback").get(
+  passport.authenticate("google", {
+    failureRedirect: "/login",
+    session: true,
+  }),
+  googleAuth
+);
 
 export default router;

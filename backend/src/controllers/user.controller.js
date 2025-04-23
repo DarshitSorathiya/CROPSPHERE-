@@ -1,9 +1,11 @@
+import crypto from "crypto";
 import jwt from "jsonwebtoken";
 import { User } from "../models/user.model.js";
 import { ApiError } from "../utils/ApiError.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
 import { uploadOnCloudinary } from "../utils/cloudinary.js";
+import { sendEmail } from "../utils/sendEmail.js";
 
 const cookieOptions = {
   httpOnly: true,
@@ -194,6 +196,99 @@ const changeCurrentPassword = asyncHandler(async (req, res) => {
     .json(new ApiResponse(200, {}, "Password changed successfully"));
 });
 
+const sendOTPEmail = asyncHandler(async (req, res) => {
+  const { email } = req.user?._id;
+
+  if (!email) throw new ApiError(400, "Email is required");
+
+  const user = await User.findOne({ email });
+
+  const AppName = "Cropsphere";
+
+  if (!user.googleId) {
+    sendEmail(
+      email,
+      "Your Login Confirmation of Cropsphere",
+      `Hello ${user.username || "there"},
+
+      Welcome back! You've successfully logged in to ${AppName}. We're glad to have you back.
+
+      If you need anything or have questions, just reply to this email or visit our support center.
+
+      Enjoy your session!  
+      The ${AppName} Team
+      `
+    );
+
+    user.isVerified = true;
+  } else {
+    const otp = crypto.randomInt(100000, 999999).toString();
+    user.otp = otp;
+
+    user.otpExpiresAt = new Date(Date.now() + 5 * 60 * 1000);
+
+    sendEmail(
+      email,
+      "Your One-Time Password (OTP) for Secure Verification",
+      `Hello ${username || "there"},
+
+      Your One-Time Password (OTP) is:
+
+      🔐 **${otp}**
+
+      This OTP is valid for **5 minutes** only. Please do not share it with anyone for your security.
+
+      If you did not request this, you can safely ignore this email.
+
+      Thanks,  
+      The ${AppName} Team
+      `
+    );
+  }
+  await user.save();
+
+  return res.status(200).json(new ApiResponse(200, "Email sent successfully"));
+});
+
+const verifyOTP = asyncHandler(async (req, res) => {
+  const { email, otp } = req.body;
+
+  const user = User.findOne({ email });
+
+  if (user.googleId) {
+    if (!user || user.otp == otp || user.otpExpiresAt < new Date())
+      throw new ApiError(400, "Invalid or expired OTP");
+
+    user.otp = null;
+    user.otpExpiresAt = null;
+    user.isVerified = true;
+  }
+  await user.save();
+
+  return res.status(200).json(new ApiResponse(200, "Verified Successfully"));
+});
+
+const googleAuth = async (req, res) => {
+  const { accessToken, refreshToken } = req.cookies;
+
+  const userId = req.user._id;
+
+  const user = await User.findById(userId).select("-password -refreshToken");
+  if (!user) throw new ApiError(404, "User does not exists");
+
+  return res
+    .status(200)
+    .cookie("accessToken", accessToken, option)
+    .cookie("refreshToken", refreshToken, option)
+    .json(
+      new ApiResponse(
+        200,
+        { user, accessToken, refreshToken },
+        "Google Login successful"
+      )
+    );
+};
+
 export {
   register,
   login,
@@ -201,4 +296,7 @@ export {
   deleteAccount,
   changeCurrentPassword,
   updateAccountDetails,
+  sendOTPEmail,
+  verifyOTP,
+  googleAuth,
 };

@@ -10,12 +10,10 @@ const userSchema = new mongoose.Schema(
       unique: true,
       lowercase: true,
       trim: true,
-      index: true,
     },
     fullname: {
       type: String,
       required: true,
-      index: true,
     },
     email: {
       type: String,
@@ -25,11 +23,17 @@ const userSchema = new mongoose.Schema(
       trim: true,
       validate: [validator.isEmail, "Email format is invalid"],
     },
-    phoneNo: {
+    phone: {
       type: String,
-      required: true,
+      unique: true,
+      sparse: true,
       trim: true,
-      match: [/^[0-9]{10}$/, "Phone number must be exactly 10 digits"],
+      validate: {
+        validator: function (value) {
+          return /^[0-9]{10}$/.test(value);
+        },
+        message: "Phone number must be exactly 10 digits",
+      },
     },
     gender: {
       type: String,
@@ -45,10 +49,33 @@ const userSchema = new mongoose.Schema(
         message: "Date pf birth cannot be in future",
       },
     },
+    age: { type: Number, default: 0 },
+    password: {
+      type: String,
+    },
+    googleId: {
+      type: String,
+      unique: true,
+      default: null,
+      sparse: true,
+    },
+    otp: {
+      type: String,
+      default: null,
+    },
+    otpExpiresAt: {
+      type: Date,
+      default: null,
+      index: { expires: "5m" },
+    },
+    isVerified: {
+      type: Boolean,
+      required: true,
+      default: false,
+    },
     refreshToken: {
       type: String,
     },
-    age: { type: Number, default: 0 },
   },
   { timestamps: true }
 );
@@ -66,7 +93,7 @@ userSchema.pre("save", async function (next) {
     this.age--;
   }
 
-  if (!this.isModified("password")) return next;
+  if (!this.isModified("password") || !this.password) return next();
 
   this.password = await bcrypt.hash(this.password, 10);
   next();
