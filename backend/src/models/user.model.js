@@ -1,6 +1,7 @@
 import mongoose from "mongoose";
 import bcrypt from "bcrypt";
 import validator from "validator";
+import jwt from "jsonwebtoken";
 
 const userSchema = new mongoose.Schema(
   {
@@ -55,9 +56,7 @@ const userSchema = new mongoose.Schema(
     },
     googleId: {
       type: String,
-      unique: true,
       default: null,
-      sparse: true,
     },
     otp: {
       type: String,
@@ -80,6 +79,14 @@ const userSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
+userSchema.index(
+  { googleId: 1 },
+  {
+    unique: true,
+    partialFilterExpression: { googleId: { $type: "string" } }
+  }
+);
+
 userSchema.pre("save", async function (next) {
   const today = new Date();
 
@@ -99,14 +106,15 @@ userSchema.pre("save", async function (next) {
   next();
 });
 
-userSchema.method.isPasswordCorrect = async function (enteredPassword) {
+userSchema.methods.isPasswordCorrect = async function (enteredPassword) {
   if (!this.password) {
     throw new Error("Password field is missing");
   }
-  return bcrypt.compare(this.password, enteredPassword);
+
+  return await bcrypt.compare(enteredPassword, this.password);
 };
 
-userSchema.method.generateAccessToken = function () {
+userSchema.methods.generateAccessToken = function () {
   return jwt.sign(
     {
       _id: this._id,
@@ -120,7 +128,7 @@ userSchema.method.generateAccessToken = function () {
   );
 };
 
-userSchema.method.generateRefreshToken = function () {
+userSchema.methods.generateRefreshToken = function () {
   return jwt.sign(
     {
       _id: this._id,

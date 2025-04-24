@@ -22,7 +22,7 @@ const verifyJWT = asyncHandler(async (req, _, next) => {
       throw new ApiError(403, "Access denied");
     }
 
-    req.user = schema;
+    req.user = user;
     next();
   } catch (error) {
     throw new ApiError(401, error?.message || "Access Token is not varified");

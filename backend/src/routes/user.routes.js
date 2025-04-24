@@ -21,7 +21,7 @@ router.route("/login").post(login);
 
 router.route("/logout").post(verifyJWT, logout);
 
-router.route("/delete-account/:userId").delete(verifyJWT, deleteAccount);
+router.route("/delete-account").delete(verifyJWT, deleteAccount);
 
 router.route("/change-password").post(verifyJWT, changeCurrentPassword);
 

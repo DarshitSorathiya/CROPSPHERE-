@@ -19,14 +19,15 @@ const generateAccessAndRefreshToken = async (userId) => {
 
     if (!user) throw new ApiError(400, "User doesn't exist in database");
 
-    accessToken = User.generateAccessToken();
-    refreshToken = User.generateRefreshToken();
+    const accessToken = user.generateAccessToken();
+    const refreshToken = user.generateRefreshToken();
 
     user.refreshToken = refreshToken;
     await user.save({ validateBeforeSave: false });
 
     return { accessToken, refreshToken };
   } catch (error) {
+    console.error(error);
     throw new ApiError(
       500,
       "Something went wrong while generating access token"
@@ -36,7 +37,8 @@ const generateAccessAndRefreshToken = async (userId) => {
 
 const register = asyncHandler(async (req, res) => {
   const { fullname, email, password, phoneNo, dob } = req.body;
-  const { username, gender } = req.body.toLowerCase();
+  const username = req.body.username.toLowerCase();
+  const gender = req.body.gender.toLowerCase();
 
   if (
     [username, fullname, email, password, phoneNo, dob].some(
@@ -62,7 +64,9 @@ const register = asyncHandler(async (req, res) => {
     dob,
   });
 
-  const { accessToken, refreshToken } = generateAccessAndRefreshToken(user._id);
+  const { accessToken, refreshToken } = await generateAccessAndRefreshToken(
+    user._id
+  );
 
   const createdUser = await User.findById(user._id).select(
     "-password -refreshToken"
@@ -90,17 +94,19 @@ const login = asyncHandler(async (req, res) => {
   if (!(username || email))
     throw new ApiError(400, "username or email cannot be empty");
 
-  const user = User.findOne({
+  const user = await User.findOne({
     $or: [{ username }, { email }],
   });
 
   if (!user) throw new ApiError(401, "User doesn't exist");
 
-  const isCorrect = await User.isPasswordCorrect(password);
+  const isCorrect = await user.isPasswordCorrect(password);
 
   if (!isCorrect) throw new ApiError(401, "Invalid credentials");
 
-  const { refreshToken, accessToken } = generateAccessAndRefreshToken(user._id);
+  const { refreshToken, accessToken } = await generateAccessAndRefreshToken(
+    user._id
+  );
 
   const loggedIn = await User.findById(user?._id).select(
     "-password -refreshToken"
@@ -111,8 +117,8 @@ const login = asyncHandler(async (req, res) => {
 
   return res
     .status(200)
-    .cookie(accessToken, cookieOptions)
-    .cookie(refreshToken, cookieOptions)
+    .cookie("accessToken", accessToken, cookieOptions)
+    .cookie("refreshToken", refreshToken, cookieOptions)
     .json(
       new ApiResponse(
         200,
@@ -123,7 +129,11 @@ const login = asyncHandler(async (req, res) => {
 });
 
 const logout = asyncHandler(async (req, res) => {
-  User.findByIdAndUpdate(
+  if (!req.user || !req.user._id) {
+    throw new ApiError(400, "User is not authenticated");
+  }
+
+  await User.findByIdAndUpdate(
     req.user._id,
     {
       $set: { refreshToken: undefined },
@@ -139,18 +149,21 @@ const logout = asyncHandler(async (req, res) => {
 });
 
 const deleteAccount = asyncHandler(async (req, res) => {
-  const { Id } = req.params;
+  const Id = req.user?._id;
+
   const user = await User.findByIdAndDelete(Id);
 
   if (!user) throw new ApiError(400, "User not found");
 
-  return res.status(200).json(200, {}, "User deleted Successfully");
+  return res
+    .status(200)
+    .json(new ApiResponse(200, {}, "User deleted Successfully"));
 });
 
 const updateAccountDetails = asyncHandler(async (req, res) => {
   const { fullname, phoneNo, email, dob } = req.body;
 
-  if (!fullname || !phoneNo || !email || !dob)
+  if (!fullname && !phoneNo && !email && !dob)
     throw new ApiError(400, "All fields cannot be empty");
 
   const user = await User.findById(req.user?._id);
@@ -164,7 +177,7 @@ const updateAccountDetails = asyncHandler(async (req, res) => {
 
   await user.save({ validateBeforeSave: false });
 
-  const updatedUser = User.findById(req.user?._id).select(
+  const updatedUser = await User.findById(req.user?._id).select(
     "-password -refreshToken"
   );
 
@@ -180,11 +193,11 @@ const changeCurrentPassword = asyncHandler(async (req, res) => {
   if (!(confPassword === newPassword))
     throw new ApiError(400, "New password and confirm password must match");
 
-  const user = User.findById(req.user?._id);
+  const user = await User.findById(req.user?._id);
 
   if (!user) throw new ApiError(400, "User doesn't exist");
 
-  const isCorrect = await User.isPasswordCorrect(oldPassword);
+  const isCorrect = await user.isPasswordCorrect(oldPassword);
 
   if (!isCorrect) throw new ApiError(400, "Password is not true");
 
@@ -197,7 +210,7 @@ const changeCurrentPassword = asyncHandler(async (req, res) => {
 });
 
 const sendOTPEmail = asyncHandler(async (req, res) => {
-  const { email } = req.user?._id;
+  const email = req.user?.email;
 
   if (!email) throw new ApiError(400, "Email is required");
 
@@ -205,19 +218,19 @@ const sendOTPEmail = asyncHandler(async (req, res) => {
 
   const AppName = "Cropsphere";
 
-  if (!user.googleId) {
+  if (user.googleId) {
     sendEmail(
       email,
       "Your Login Confirmation of Cropsphere",
       `Hello ${user.username || "there"},
 
-      Welcome back! You've successfully logged in to ${AppName}. We're glad to have you back.
+Welcome back! You've successfully logged in to ${AppName}. We're glad to have you back.
 
-      If you need anything or have questions, just reply to this email or visit our support center.
+If you need anything or have questions, just reply to this email or visit our support center.
 
-      Enjoy your session!  
-      The ${AppName} Team
-      `
+Enjoy your session!  
+The ${AppName} Team
+`
     );
 
     user.isVerified = true;
@@ -230,19 +243,19 @@ const sendOTPEmail = asyncHandler(async (req, res) => {
     sendEmail(
       email,
       "Your One-Time Password (OTP) for Secure Verification",
-      `Hello ${username || "there"},
+      `Hello ${user.username || "there"},
 
-      Your One-Time Password (OTP) is:
+Your One-Time Password (OTP) is:
 
-      🔐 **${otp}**
+🔐 **${otp}**
 
-      This OTP is valid for **5 minutes** only. Please do not share it with anyone for your security.
+This OTP is valid for **5 minutes** only. Please do not share it with anyone for your security.
 
-      If you did not request this, you can safely ignore this email.
+If you did not request this, you can safely ignore this email.
 
-      Thanks,  
-      The ${AppName} Team
-      `
+Thanks,  
+The ${AppName} Team
+`
     );
   }
   await user.save();
@@ -251,12 +264,13 @@ const sendOTPEmail = asyncHandler(async (req, res) => {
 });
 
 const verifyOTP = asyncHandler(async (req, res) => {
-  const { email, otp } = req.body;
+  const { uotp } = req.body;
+  const email = req.user?.email;
+  
+  const user = await User.findOne({ email });
 
-  const user = User.findOne({ email });
-
-  if (user.googleId) {
-    if (!user || user.otp == otp || user.otpExpiresAt < new Date())
+  if (!user.googleId) {
+    if (!user || user.otp == uotp || user.otpExpiresAt < new Date())
       throw new ApiError(400, "Invalid or expired OTP");
 
     user.otp = null;
